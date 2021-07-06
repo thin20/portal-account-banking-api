@@ -70,7 +70,6 @@ namespace UserAccount.Models.DAO
         public user UpdateUserAccount(user u)
         {
             user u1 = null;
-            user u2 = null;
             try
             {
                 u1 = db.users.Where(x => x.id == u.id).SingleOrDefault();
