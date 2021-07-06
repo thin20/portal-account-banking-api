@@ -9,13 +9,15 @@ namespace UserAccount.Common
     {
         public StatusResponse status;
         public string message;
-        public Object data;
+        public List<T> data;
+        public int numberOfPage;
 
-        public BaseResponse(StatusResponse status, string message, Object data)
+        public BaseResponse(StatusResponse status, string message, List<T> data, int numberOfPage)
         {
             this.status = status;
             this.message = message;
             this.data = data;
+            this.numberOfPage = numberOfPage;
         }
     }
 }

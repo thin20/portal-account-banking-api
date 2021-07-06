@@ -22,6 +22,16 @@ namespace UserAccount.Models.DAO
             return u;
         }
 
+        public int getNumberOfUserAccount()
+        {
+            return db.users.Count();
+        }
+
+        public int getNumberOfUserAccountSearch(string search)
+        {
+            return db.users.Where(x => x.name.Contains(search)).Count();
+        }
+
         public user Register(Interfaces.UserAccount userAccount)
         {
             try

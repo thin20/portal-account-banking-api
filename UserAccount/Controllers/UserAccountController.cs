@@ -6,24 +6,31 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
 using UserAccount.Models.DAO;
+using UserAccount.Common;
 
 namespace UserAccount.Controllers
 {
     public class UserAccountController : ApiController
     {
         [HttpGet]
-        public Models.Entities.user Login(string userName, string password)
+        public BaseResponse<Models.Entities.user> Login(string userName, string password)
         {
             Interfaces.UserLogin userLogin = new Interfaces.UserLogin();
             userLogin.userName = userName;
             userLogin.password = password;
             Models.Entities.user u = new Models.Entities.user();
             u = new UserAccountDAO().Login(userLogin);
-            return u;
+            if(u == null)
+            {
+                return new BaseResponse<Models.Entities.user>(StatusResponse.Fail, "Login failure", null, 0);  
+            }
+            List<Models.Entities.user> u1 = new List<Models.Entities.user>();
+            u1.Add(u);
+            return new BaseResponse<Models.Entities.user>(StatusResponse.Success, "Login successfully", u1, 0);
         }
 
         [HttpPost]
-        public Models.Entities.user Register(string userName, string password, string phone, string idRole, string country, string name)
+        public BaseResponse<Models.Entities.user> Register(string userName, string password, string phone, string idRole, string country, string name)
         {
             Interfaces.UserAccount userAccount = new Interfaces.UserAccount();
             userAccount.userName = userName;
@@ -34,31 +41,42 @@ namespace UserAccount.Controllers
             userAccount.name = name;
             Models.Entities.user u = new Models.Entities.user();
             u = new UserAccountDAO().Register(userAccount);
-            return u;
+            if (u == null)
+            {
+                return new BaseResponse<Models.Entities.user>(StatusResponse.Fail, "Register failure", null, 0);
+            }
+            return new BaseResponse<Models.Entities.user>(StatusResponse.Success, "Login Success", null, 0);
         }
 
         [HttpGet]
-        public Models.Entities.user getUser(int userId)
+        public BaseResponse<Models.Entities.user> getUser(int userId)
         {
-            return new UserAccountDAO().GetUser(userId);
+            Models.Entities.user u = new UserAccountDAO().GetUser(userId);
+            List<Models.Entities.user> u1 = new List<Models.Entities.user>();
+            u1.Add(u);
+            return new BaseResponse<Models.Entities.user>(StatusResponse.Success, "Get User Success", u1, 0);
         }
 
         [HttpGet]
-        public List<Models.Entities.user> GetList(int page, int limit)
+        public BaseResponse<Models.Entities.user> GetList(int page, int limit)
         {
             List <Models.Entities.user> list = new UserAccountDAO().GetList(page, limit);
-            return list;
+            int count = new UserAccountDAO().getNumberOfUserAccount();
+            int n = (int)Math.Ceiling(1.0 * count / limit);           
+            return new BaseResponse<Models.Entities.user>(StatusResponse.Success, "Get List User Success", list, n);
         }
 
         [HttpGet]
-        public List<Models.Entities.user> GetListSearch(int page, int limit, string search)
+        public BaseResponse<Models.Entities.user> GetListSearch(int page, int limit, string search)
         {
             List<Models.Entities.user> list = new UserAccountDAO().GetListSearch(page, limit, search);
-            return list;
+            int count = new UserAccountDAO().getNumberOfUserAccountSearch(search);
+            int n = (int)Math.Ceiling(1.0 * count / limit);
+            return new BaseResponse<Models.Entities.user>(StatusResponse.Success, "Get List User Search Success", list, n);
         }
 
         [HttpPut]
-        public Models.Entities.user UpdateUserAccount(int id, string userName = "", string password = "", string phone = "", string idRole = "", string country = "", string name = "")
+        public BaseResponse<Models.Entities.user> UpdateUserAccount(int id, string userName = "", string password = "", string phone = "", string idRole = "", string country = "", string name = "")
         {
             Models.Entities.user u1 = new Models.Entities.user();
             Models.Entities.user u = new UserAccountDAO().GetUser(id);
@@ -75,15 +93,15 @@ namespace UserAccount.Controllers
             u.name = name;
             u1 = new UserAccountDAO().UpdateUserAccount(u);
             
-            return u1;
+            return new BaseResponse<Models.Entities.user>(StatusResponse.Success, "Update UserAccount Success", null, 0);
         }
 
         [HttpDelete]
-        public Models.Entities.user DeleteUserAccount(int id)
+        public BaseResponse<Models.Entities.user> DeleteUserAccount(int id)
         {
             // Phan quyen
             Models.Entities.user u = new UserAccountDAO().DeleteUserAccount(id);
-            return u;
+            return new BaseResponse<Models.Entities.user>(StatusResponse.Success, "Delete UserAccount Success", null, 0);
         }
     }
 }
