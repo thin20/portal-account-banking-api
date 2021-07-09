@@ -7,9 +7,11 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using UserAccount.Models.DAO;
 using UserAccount.Common;
+using System.Web.Http.Cors;
 
 namespace UserAccount.Controllers
 {
+    [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
     public class UserAccountController : ApiController
     {
         [HttpGet]

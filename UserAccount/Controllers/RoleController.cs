@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Web.Http;
 using UserAccount.Models.DAO;
 using UserAccount.Common;
+using System.Web.Http.Cors;
 
 namespace UserAccount.Controllers
 {
+    [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
     public class RoleController : ApiController
     {
         [HttpGet]
