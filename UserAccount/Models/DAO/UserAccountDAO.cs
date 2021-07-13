@@ -60,6 +60,11 @@ namespace UserAccount.Models.DAO
             }
         }
 
+        public List<user> GetAll()
+        {
+            return db.users.ToList();
+        }
+
         public user GetUser(int userId)
         {
             return db.users.Where(x => x.id == userId).FirstOrDefault();
@@ -77,7 +82,7 @@ namespace UserAccount.Models.DAO
             return list;
         }
 
-        public user UpdateUserAccount(user u)
+        public user UpdateUserAccount(Models.Entities.user u)
         {
             user u1 = null;
             try

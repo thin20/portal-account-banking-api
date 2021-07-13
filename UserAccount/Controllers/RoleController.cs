@@ -16,7 +16,7 @@ namespace UserAccount.Controllers
         [HttpGet]
         public BaseResponse<Models.Entities.role> GetListRole()
         {
-            return new BaseResponse<Models.Entities.role>(StatusResponse.Success, "Get List Role Success", new RoleDAO().GetRole(), 0);
+            return new BaseResponse<Models.Entities.role>(StatusResponse.Success, "Get List Role Success", new RoleDAO().GetRole(), 0, 2);
         }
     }
 }
