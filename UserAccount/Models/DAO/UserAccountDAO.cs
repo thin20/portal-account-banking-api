@@ -92,14 +92,13 @@ namespace UserAccount.Models.DAO
                 {
                     return null;
                 }
-                if(u.userName != null && u.name != "")
+                if(u.userName != null && u.userName != "")
                 {
                     u1.userName = u.userName;
                 }
                 if(u.password != null && u.password != "")
                 {
                     u1.password = u.password;
-
                 }
                 if(u.phone != null && u.phone != "")
                 {

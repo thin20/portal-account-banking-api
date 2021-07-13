@@ -51,7 +51,7 @@ namespace UserAccount.Controllers
         }
 
         [HttpGet]
-        public BaseResponse<Models.Entities.user> getUser(int userId)
+        public BaseResponse<Models.Entities.user> GetUser(int userId)
         {
             Models.Entities.user u = new UserAccountDAO().GetUser(userId);
             List<Models.Entities.user> u1 = new List<Models.Entities.user>();
@@ -105,17 +105,17 @@ namespace UserAccount.Controllers
                 return new BaseResponse<Models.Entities.user>(StatusResponse.Fail, "You are not logged in yet", null, 0, 0);
             }
             Models.Entities.user u1 = new UserAccountDAO().GetUser(idCurrentUser);
-            if (String.Equals(u.idRole.Trim(), "normal"))
+            if (String.Equals(u1.idRole.Trim(), "normal"))
             {
                 return new BaseResponse<Models.Entities.user>(StatusResponse.Fail, "Forbidden ", null, 0, 0);
             }
-            u1.userName = userName;
-            u1.password = password;
-            u1.phone = phone;
-            u1.idRole = idRole;
-            u1.country = country;
-            u1.name = name;
-            Models.Entities.user u2 = new UserAccountDAO().UpdateUserAccount(u1);
+            u.userName = userName;
+            u.password = password;
+            u.phone = phone;
+            u.idRole = idRole;
+            u.country = country;
+            u.name = name;
+            Models.Entities.user u2 = new UserAccountDAO().UpdateUserAccount(u);
             if(u2 == null)
             {
                 return new BaseResponse<Models.Entities.user>(StatusResponse.Fail, "Username already exist!", null, 0, 0);
